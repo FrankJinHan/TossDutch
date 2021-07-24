@@ -27,6 +27,16 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
         bindViews()
     }
     
+    // MARK: - RootViewControllable
+    
+    func presentNavigation(rootViewController: ViewControllable) {
+        let navigationController = UINavigationController(rootViewController: rootViewController.uiviewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true, completion: nil)
+    }
+    
+    // MARK: - Privates
+    
     private lazy var tossDutchButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("더치페이", for: .normal)

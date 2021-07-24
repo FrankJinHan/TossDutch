@@ -9,7 +9,7 @@ import RIBs
 import RxSwift
 
 protocol RootRouting: ViewableRouting {
-    
+    func routeToDutch(requirement: DutchDynamicRequired)
 }
 
 protocol RootPresentable: Presentable {
@@ -43,6 +43,7 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     // MARK: - PresentableListeners
     
     func dutchButtonTapped() {
-        
+        let requirement = DutchDynamicRequirement()
+        router?.routeToDutch(requirement: requirement)
     }
 }

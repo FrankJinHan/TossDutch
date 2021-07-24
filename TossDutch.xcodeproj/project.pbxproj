@@ -28,6 +28,12 @@
 		4A5B1F9126ABBC76009C6965 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 4A5B1F9026ABBC76009C6965 /* RxSwift */; };
 		4A5B1F9526ABBC76009C6965 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 4A5B1F9426ABBC76009C6965 /* RxRelay */; };
 		4A5B1F9726ABBC76009C6965 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 4A5B1F9626ABBC76009C6965 /* RxCocoa */; };
+		4A5B1F9F26ABBE49009C6965 /* DutchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1F9B26ABBE49009C6965 /* DutchRouter.swift */; };
+		4A5B1FA026ABBE49009C6965 /* DutchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1F9C26ABBE49009C6965 /* DutchViewController.swift */; };
+		4A5B1FA126ABBE49009C6965 /* DutchBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1F9D26ABBE49009C6965 /* DutchBuilder.swift */; };
+		4A5B1FA226ABBE49009C6965 /* DutchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1F9E26ABBE49009C6965 /* DutchInteractor.swift */; };
+		4A5B1FA526ABBFE3009C6965 /* RootComponent+Dutch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FA426ABBFE3009C6965 /* RootComponent+Dutch.swift */; };
+		4A5B1FA726ABC055009C6965 /* DutchRequireds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FA626ABC055009C6965 /* DutchRequireds.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +73,12 @@
 		4A5B1F8026ABB916009C6965 /* RootBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootBuilder.swift; sourceTree = "<group>"; };
 		4A5B1F8126ABB916009C6965 /* RootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractor.swift; sourceTree = "<group>"; };
 		4A5B1F8D26ABBB72009C6965 /* AppComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppComponent.swift; sourceTree = "<group>"; };
+		4A5B1F9B26ABBE49009C6965 /* DutchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchRouter.swift; sourceTree = "<group>"; };
+		4A5B1F9C26ABBE49009C6965 /* DutchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchViewController.swift; sourceTree = "<group>"; };
+		4A5B1F9D26ABBE49009C6965 /* DutchBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchBuilder.swift; sourceTree = "<group>"; };
+		4A5B1F9E26ABBE49009C6965 /* DutchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchInteractor.swift; sourceTree = "<group>"; };
+		4A5B1FA426ABBFE3009C6965 /* RootComponent+Dutch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootComponent+Dutch.swift"; sourceTree = "<group>"; };
+		4A5B1FA626ABC055009C6965 /* DutchRequireds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchRequireds.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +172,7 @@
 			children = (
 				4A5B1F8C26ABBB56009C6965 /* AppStart */,
 				4A5B1F7D26ABB8D5009C6965 /* Root */,
+				4A5B1F9A26ABBE1A009C6965 /* Dutch */,
 			);
 			path = RIBs;
 			sourceTree = "<group>";
@@ -167,6 +180,7 @@
 		4A5B1F7D26ABB8D5009C6965 /* Root */ = {
 			isa = PBXGroup;
 			children = (
+				4A5B1FA326ABBFD1009C6965 /* Components */,
 				4A5B1F7E26ABB916009C6965 /* RootRouter.swift */,
 				4A5B1F7F26ABB916009C6965 /* RootViewController.swift */,
 				4A5B1F8026ABB916009C6965 /* RootBuilder.swift */,
@@ -181,6 +195,26 @@
 				4A5B1F8D26ABBB72009C6965 /* AppComponent.swift */,
 			);
 			path = AppStart;
+			sourceTree = "<group>";
+		};
+		4A5B1F9A26ABBE1A009C6965 /* Dutch */ = {
+			isa = PBXGroup;
+			children = (
+				4A5B1F9B26ABBE49009C6965 /* DutchRouter.swift */,
+				4A5B1F9C26ABBE49009C6965 /* DutchViewController.swift */,
+				4A5B1F9D26ABBE49009C6965 /* DutchBuilder.swift */,
+				4A5B1F9E26ABBE49009C6965 /* DutchInteractor.swift */,
+				4A5B1FA626ABC055009C6965 /* DutchRequireds.swift */,
+			);
+			path = Dutch;
+			sourceTree = "<group>";
+		};
+		4A5B1FA326ABBFD1009C6965 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				4A5B1FA426ABBFE3009C6965 /* RootComponent+Dutch.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -331,14 +365,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A5B1F9F26ABBE49009C6965 /* DutchRouter.swift in Sources */,
 				4A5B1F8326ABB916009C6965 /* RootViewController.swift in Sources */,
 				4A5B1F8E26ABBB72009C6965 /* AppComponent.swift in Sources */,
+				4A5B1FA126ABBE49009C6965 /* DutchBuilder.swift in Sources */,
 				4A5B1F8226ABB916009C6965 /* RootRouter.swift in Sources */,
+				4A5B1FA726ABC055009C6965 /* DutchRequireds.swift in Sources */,
 				4A5B1F8526ABB916009C6965 /* RootInteractor.swift in Sources */,
+				4A5B1FA526ABBFE3009C6965 /* RootComponent+Dutch.swift in Sources */,
+				4A5B1FA026ABBE49009C6965 /* DutchViewController.swift in Sources */,
 				4A5B1F2C26ABA2E3009C6965 /* ViewController.swift in Sources */,
 				4A5B1F2826ABA2E3009C6965 /* AppDelegate.swift in Sources */,
 				4A5B1F2A26ABA2E3009C6965 /* SceneDelegate.swift in Sources */,
 				4A5B1F8426ABB916009C6965 /* RootBuilder.swift in Sources */,
+				4A5B1FA226ABBE49009C6965 /* DutchInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
