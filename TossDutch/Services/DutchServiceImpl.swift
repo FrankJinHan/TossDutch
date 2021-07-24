@@ -13,9 +13,12 @@ import Foundation
 enum DutchServiceError: Error {
     case urlParsingFailed
     case makeURLRequestFailed
+    case jsonParsingFailed
+    case unknownError
+    case requestNotAccepted
 }
 
-struct DutchServiceImpl: DutchService {
+struct DutchServiceWithAlamofireImpl: DutchService {
     func requestDutchData() -> Single<DutchData> {
         .create { observer in
             guard let url = URL(string: "https://ek7b8b8yq2.execute-api.us-east-2.amazonaws.com/default/toss_ios_homework_dutch_detail") else {
@@ -35,16 +38,26 @@ struct DutchServiceImpl: DutchService {
                 }
             }
             return Disposables.create { request.cancel() }
-//            AF.request(urlRequest).validate().responseJSON { response in
-//                switch response.result {
-//                case let .success(value):
-//                    let json = JSON(value)
-//                    observer(.success(<#T##PrimitiveSequence<SingleTrait, DutchData>.Element#>))
-//                case let .failure(error):
-//                    observer(.failure(error))
-//                }
-//            }
-           
+        }
+    }
+}
+
+struct DutchServiceImpl: DutchService {
+    func requestDutchData() -> Single<DutchData> {
+        .create { observer in
+            let dataTask = Network.shared.request(type: TossDutch.details, result: DutchData.self, completionHandler: { result, error in
+                if let error = error {
+                    observer(.failure(error))
+                } else if let result = result {
+                    observer(.success(result))
+                } else {
+                    observer(.failure(DutchServiceError.unknownError))
+                }
+            })
+            
+            dataTask?.resume()
+            
+            return Disposables.create { dataTask?.cancel() }
         }
     }
 }

@@ -49,6 +49,7 @@
 		4A5B1FD526ABFB06009C6965 /* DutchServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FD426ABFB06009C6965 /* DutchServiceImpl.swift */; };
 		4A5B1FD926AC0795009C6965 /* DutchViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FD826AC0795009C6965 /* DutchViewModels.swift */; };
 		4A5B1FDB26AC17D7009C6965 /* GlobalConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FDA26AC17D7009C6965 /* GlobalConstant.swift */; };
+		4A5B1FDD26AC7988009C6965 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FDC26AC7988009C6965 /* Network.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,7 @@
 		4A5B1FD426ABFB06009C6965 /* DutchServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchServiceImpl.swift; sourceTree = "<group>"; };
 		4A5B1FD826AC0795009C6965 /* DutchViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchViewModels.swift; sourceTree = "<group>"; };
 		4A5B1FDA26AC17D7009C6965 /* GlobalConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstant.swift; sourceTree = "<group>"; };
+		4A5B1FDC26AC7988009C6965 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -295,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				4A5B1FD426ABFB06009C6965 /* DutchServiceImpl.swift */,
+				4A5B1FDC26AC7988009C6965 /* Network.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				4A5B1F2A26ABA2E3009C6965 /* SceneDelegate.swift in Sources */,
 				4A5B1F8426ABB916009C6965 /* RootBuilder.swift in Sources */,
 				4A5B1FA226ABBE49009C6965 /* DutchInteractor.swift in Sources */,
+				4A5B1FDD26AC7988009C6965 /* Network.swift in Sources */,
 				4A5B1FCD26ABE3EA009C6965 /* DutchDetailTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
