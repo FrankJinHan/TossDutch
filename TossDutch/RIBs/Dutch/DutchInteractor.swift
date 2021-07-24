@@ -7,6 +7,28 @@
 
 import RIBs
 import RxSwift
+import Foundation
+
+final class DutchDetailRetryStatus {
+    var startTime: Date?
+    var current: Float? {
+        guard let startTime = startTime else {
+            return nil
+        }
+        let interval = Date().timeIntervalSince(startTime)
+        return Float(interval) / GlobalConstant.dutchRetryDuration
+    }
+}
+
+struct DutchDetailItem {
+    let nameText: String
+    let amountDescription: String
+    let messageDescription: String?
+    let retryStatus: DutchDetailRetryStatus
+    let isDone: Bool
+    var buttonTappedClosure: (() -> Void)?
+    var progressButtonTappedClosure: (() -> Void)?
+}
 
 protocol DutchRouting: ViewableRouting {
     
@@ -47,8 +69,9 @@ final class DutchInteractor: PresentableInteractor<DutchPresentable>, DutchInter
     func viewDidLoad() {
         presenter.setNavigationBarTitle(requirement.navigationBarTitle)
         service.requestDutchData()
-            .subscribe(onSuccess: { [weak presenter] dutchData in
-                presenter?.reload(sections: dutchData.sections)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] dutchData in
+                self?.update(dutchData: dutchData)
             }, onFailure: { error in
                 //TODO : show popup
             })
@@ -62,19 +85,38 @@ final class DutchInteractor: PresentableInteractor<DutchPresentable>, DutchInter
     private let requirement: DutchInteractorRequired
     
     private let service: DutchService
+    
+    private func update(dutchData: DutchData) {
+        presenter.reload(sections: dutchData.sections)
+    }
 }
 
 private extension DutchData {
     var sections: [DutchSectionModel] {
         [
             .summary(items: [.summary(viewModel: dutchSummary)]),
-            .detail(items: details)
+            .detail(items: dutchDetailList.map {
+                .detail(viewModel: $0.dutchDetailItem)
+            })
         ]
     }
-    
-    private var details: [DutchSectionItem] {
-        dutchDetailList.map {
-            .detail(viewModel: $0)
-        }
+}
+
+private extension DutchDetail {
+    var dutchDetailItem: DutchDetailItem {
+        let retryStatus = DutchDetailRetryStatus()
+        return DutchDetailItem(
+            nameText: name,
+            amountDescription: "\(amount.addComma ?? "-")원",
+            messageDescription: transferMessage,
+            retryStatus: retryStatus,
+            isDone: isDone,
+            buttonTappedClosure: { [weak retryStatus] in
+                guard !isDone else { return }
+                retryStatus?.startTime = Date()
+            },
+            progressButtonTappedClosure: { [weak retryStatus] in
+                retryStatus?.startTime = nil
+            })
     }
 }

@@ -48,6 +48,7 @@
 		4A5B1FD126ABFAA0009C6965 /* DutchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FD026ABFAA0009C6965 /* DutchService.swift */; };
 		4A5B1FD526ABFB06009C6965 /* DutchServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FD426ABFB06009C6965 /* DutchServiceImpl.swift */; };
 		4A5B1FD926AC0795009C6965 /* DutchViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FD826AC0795009C6965 /* DutchViewModels.swift */; };
+		4A5B1FDB26AC17D7009C6965 /* GlobalConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FDA26AC17D7009C6965 /* GlobalConstant.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +106,7 @@
 		4A5B1FD026ABFAA0009C6965 /* DutchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchService.swift; sourceTree = "<group>"; };
 		4A5B1FD426ABFB06009C6965 /* DutchServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchServiceImpl.swift; sourceTree = "<group>"; };
 		4A5B1FD826AC0795009C6965 /* DutchViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchViewModels.swift; sourceTree = "<group>"; };
+		4A5B1FDA26AC17D7009C6965 /* GlobalConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalConstant.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,6 +303,7 @@
 			isa = PBXGroup;
 			children = (
 				4A5B1FBB26ABC984009C6965 /* DutchData.swift */,
+				4A5B1FDA26AC17D7009C6965 /* GlobalConstant.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 				4A5B1FC326ABD8D0009C6965 /* UITableViewCell+extension.swift in Sources */,
 				4A5B1FA026ABBE49009C6965 /* DutchViewController.swift in Sources */,
 				4A5B1FD926AC0795009C6965 /* DutchViewModels.swift in Sources */,
+				4A5B1FDB26AC17D7009C6965 /* GlobalConstant.swift in Sources */,
 				4A5B1FBC26ABC984009C6965 /* DutchData.swift in Sources */,
 				4A5B1F2C26ABA2E3009C6965 /* ViewController.swift in Sources */,
 				4A5B1F2826ABA2E3009C6965 /* AppDelegate.swift in Sources */,

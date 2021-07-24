@@ -53,20 +53,17 @@ extension DutchSummary: DutchSummaryViewModeling {
     }
 }
 
-extension DutchDetail: DutchDetailViewModeling {
-    var nameText: String {
-        name
-    }
-    
-    var amountDescription: String {
-        "\(amount.addComma ?? "-")원"
-    }
-    
-    var messageDescription: String? {
-        transferMessage
-    }
-    
+extension DutchDetailItem: DutchDetailViewModeling {
     var status: DutchDetailStatus {
-        isDone ? .completed : .retry
+        switch (isDone, retryStatus.current) {
+        case (true, _):
+            return .completed
+        case (false, .some(let current)) where current < 1.0:
+            return .retrying(current: current)
+        case (false, .some(let current)) where current >= 1.0:
+            return .retried
+        default:
+            return .retry
+        }
     }
 }

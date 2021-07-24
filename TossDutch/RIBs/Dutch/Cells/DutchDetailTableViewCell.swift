@@ -22,6 +22,8 @@ protocol DutchDetailViewModeling {
     var amountDescription: String { get }
     var messageDescription: String? { get }
     var status: DutchDetailStatus { get }
+    var buttonTappedClosure: (() -> Void)? { get }
+    var progressButtonTappedClosure: (() -> Void)? { get }
 }
 
 protocol DutchDetailTableViewCellRenderable {
@@ -52,21 +54,29 @@ final class DutchDetailTableViewCell: UITableViewCell, DutchDetailTableViewCellR
         messageLabel.text = viewModel.messageDescription
         messageLabel.isHidden = viewModel.messageDescription == nil
         status = viewModel.status
+        buttonTappedClosure = viewModel.buttonTappedClosure
+        progressButtonTappedClosure = viewModel.progressButtonTappedClosure
         
         statusButton.rx.tap
             .bind { [weak self] in
+                self?.buttonTappedClosure?()
                 self?.statusButtonTapped()
             }
             .disposed(by: bag)
         
         progressButton.rx.tap
             .bind { [weak self] in
+                self?.progressButtonTappedClosure?()
                 self?.progressButtonTapped()
             }
             .disposed(by: bag)
     }
     
     private var bag = DisposeBag()
+    
+    private var buttonTappedClosure: (() -> Void)?
+    
+    private var progressButtonTappedClosure: (() -> Void)?
     
     private var status: DutchDetailStatus? {
         didSet {
@@ -189,7 +199,7 @@ final class DutchDetailTableViewCell: UITableViewCell, DutchDetailTableViewCellR
     }()
     
     private lazy var progressButton: ProgressButton = { [weak self] in
-        let button = ProgressButton(color: .systemBlue, radius: 15, duration: 3, completion: {
+        let button = ProgressButton(color: .systemBlue, radius: 15, duration: CGFloat(GlobalConstant.dutchRetryDuration), completion: {
             self?.requestCompleted()
         })
         button.snp.makeConstraints {
