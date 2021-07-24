@@ -83,4 +83,8 @@ extension DutchDetailModel: DutchDetailTableViewCellViewModelable {
     var messageDescription: String? {
         transferMessage
     }
+    
+    var status: DutchDetailStatus {
+        isDone ? .completed : .retry
+    }
 }
