@@ -1,0 +1,187 @@
+{
+    "dutchSummary": {
+        "ownerName": "김철수",
+        "message": "💸💸👍👍👻👻👻 우리 오늘 모임 즐거웠다~~~ 돈 다 나에게도 주즈아~~",
+        "ownerAmount": 32500,
+        "completedAmount": 308000,
+        "totalAmount": 380000,
+        "date": "2019-04-06T00:44:16+0000"
+    },
+    "dutchDetailList": [
+        {
+            "dutchId": 1,
+            "name": "김진규",
+            "amount": 32500,
+            "transferMessage": "🔫🔫🔫",
+            "isDone": true
+        },
+        {
+            "dutchId": 2,
+            "name": "이예성",
+            "amount": 20000,
+            "transferMessage": null,
+            "isDone": false
+        },
+        {
+            "dutchId": 3,
+            "name": "강남구",
+            "amount": 10000,
+            "transferMessage": null,
+            "isDone": true
+        },
+        {
+            "dutchId": 4,
+            "name": "이영희",
+            "amount": 20000,
+            "transferMessage": null,
+            "isDone": false
+        },
+        {
+            "dutchId": 5,
+            "name": "박민철",
+            "amount": 10000,
+            "transferMessage": "오늘 정말 즐거웠어요. 맛있는 식사였습니다. 감사합니다~ 👍👍👍👍👍👍",
+            "isDone": true
+        },
+        {
+            "dutchId": 6,
+            "name": "강민철",
+            "amount": 10000,
+            "transferMessage": "역시 예상했던 하루 였어요. 다음에 또 봬요~ 돈 보냅니다~ 😜",
+            "isDone": true
+        },
+        {
+            "dutchId": 7,
+            "name": "김준모",
+            "amount": 10000,
+            "transferMessage": null,
+            "isDone": true
+        },
+        {
+            "dutchId": 8,
+            "name": "김정무",
+            "amount": 12000,
+            "transferMessage": null,
+            "isDone": false
+        },
+        {
+            "dutchId": 9,
+            "name": "손민탁",
+            "amount": 13000,
+            "transferMessage": null,
+            "isDone": true
+        },
+        {
+            "dutchId": 10,
+            "name": "김명훈",
+            "amount": 14000,
+            "transferMessage": null,
+            "isDone": true
+        },
+        {
+            "dutchId": 11,
+            "name": "유금상",
+            "amount": 15000,
+            "transferMessage": "고맙수다",
+            "isDone": true
+        },
+        {
+            "dutchId": 12,
+            "name": "이택규",
+            "amount": 16000,
+            "transferMessage": null,
+            "isDone": true
+        },
+        {
+            "dutchId": 13,
+            "name": "방성원",
+            "amount": 10000,
+            "transferMessage": null,
+            "isDone": false
+        },
+        {
+            "dutchId": 14,
+            "name": "정준영",
+            "amount": 10000,
+            "transferMessage": null,
+            "isDone": true
+        },
+        {
+            "dutchId": 15,
+            "name": "이원",
+            "amount": 10000,
+            "transferMessage": null,
+            "isDone": true
+        },
+        {
+            "dutchId": 16,
+            "name": "변기범",
+            "amount": 15000,
+            "transferMessage": null,
+            "isDone": true
+        },
+        {
+            "dutchId": 17,
+            "name": "이홍채",
+            "amount": 20000,
+            "transferMessage": "다음에 또 봬요~~",
+            "isDone": true
+        },
+        {
+            "dutchId": 18,
+            "name": "송태화",
+            "amount": 10000,
+            "transferMessage": null,
+            "isDone": true
+        },
+        {
+            "dutchId": 19,
+            "name": "조아라",
+            "amount": 10000,
+            "transferMessage": null,
+            "isDone": true
+        },
+        {
+            "dutchId": 20,
+            "name": "김영우",
+            "amount": 10000,
+            "transferMessage": null,
+            "isDone": true
+        },
+        {
+            "dutchId": 21,
+            "name": "이성민",
+            "amount": 10000,
+            "transferMessage": null,
+            "isDone": true
+        },
+        {
+            "dutchId": 22,
+            "name": "홍지형",
+            "amount": 10000,
+            "transferMessage": null,
+            "isDone": false
+        },
+        {
+            "dutchId": 23,
+            "name": "윤지영",
+            "amount": 10000,
+            "transferMessage": null,
+            "isDone": true
+        },
+        {
+            "dutchId": 24,
+            "name": "천명승",
+            "amount": 10000,
+            "transferMessage": null,
+            "isDone": true
+        },
+        {
+            "dutchId": 25,
+            "name": "김종상",
+            "amount": 30000,
+            "transferMessage": null,
+            "isDone": true
+        },
+    ],
+}
