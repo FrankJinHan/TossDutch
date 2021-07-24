@@ -26,15 +26,7 @@ final class DutchViewController: UIViewController, DutchPresentable, DutchViewCo
         
         setupTableView()
         
-        let sections: [DutchSectionModel] = [
-            .summary(items: [.summary(model: DutchSummaryModel(ownerName: "김철수", message: "💸💸👍👍👻👻👻 우리 오늘 모임 즐거웠다~~~ 돈 다 나에게도 주즈아~~", ownerAmount: 32500, completedAmount: 308000, totalAmount: 380000, date: "2019-04-06T00:44:16+0000"))]),
-            .detail(items: [
-                .detail(model: DutchDetailModel(dutchId: 1, name: "김진규", amount: 32500, transferMessage: "🔫🔫🔫우리 오늘 모임 즐거웠다~~~ 돈 다 나에게도 주즈아~~", isDone: true)),
-                .detail(model: DutchDetailModel(dutchId: 7, name: "김준모", amount: 10000, transferMessage: nil, isDone: false)),
-            ])
-        ]
-        
-        Observable.just(sections)
+        sections
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         
@@ -45,9 +37,15 @@ final class DutchViewController: UIViewController, DutchPresentable, DutchViewCo
         self.title = title
     }
     
+    func reload(sections: [DutchSectionModel]) {
+        self.sections.onNext(sections)
+    }
+    
     private let tableView = UITableView()
     
     private let bag = DisposeBag()
+    
+    private var sections = PublishSubject<[DutchSectionModel]>()
     
     private func setupTableView() {
         view.addSubview(tableView)

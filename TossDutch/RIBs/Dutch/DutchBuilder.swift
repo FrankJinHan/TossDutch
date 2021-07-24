@@ -9,13 +9,17 @@ import RIBs
 
 protocol DutchDependency: Dependency {
     var dutchStaticRequirement: DutchStaticRequired { get }
+    var dutchService: DutchService { get }
 }
 
 final class DutchComponent: Component<DutchDependency> {
     fileprivate let requirement: DutchRequired
     
+    fileprivate let dutchService: DutchService
+    
     init(dependency: DutchDependency, dynamicRequirement: DutchDynamicRequired) {
         self.requirement = DutchRequirement(navigationBarTitle: dependency.dutchStaticRequirement.navigationBarTitle)
+        self.dutchService = dependency.dutchService
         super.init(dependency: dependency)
     }
 }
@@ -35,7 +39,7 @@ final class DutchBuilder: Builder<DutchDependency>, DutchBuildable {
     func build(withListener listener: DutchListener, requirement: DutchDynamicRequired) -> DutchRouting {
         let component = DutchComponent(dependency: dependency, dynamicRequirement: requirement)
         let viewController = DutchViewController()
-        let interactor = DutchInteractor(presenter: viewController, requirement: component.requirement)
+        let interactor = DutchInteractor(presenter: viewController, requirement: component.requirement, service: component.dutchService)
         interactor.listener = listener
         return DutchRouter(interactor: interactor, viewController: viewController)
     }

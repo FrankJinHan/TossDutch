@@ -8,14 +8,14 @@
 import UIKit
 import SwiftRichString
 
-protocol DutchSummaryTableViewCellViewModelable {
+protocol DutchSummaryViewModeling {
     var dateDescription: String { get }
     var amountDescription: String { get }
     var messageDescription: String { get }
 }
 
 protocol DutchSummaryTableViewCellRenderable {
-    func render(viewModel: DutchSummaryTableViewCellViewModelable)
+    func render(viewModel: DutchSummaryViewModeling)
 }
 
 final class DutchSummaryTableViewCell: UITableViewCell, DutchSummaryTableViewCellRenderable {
@@ -30,7 +30,7 @@ final class DutchSummaryTableViewCell: UITableViewCell, DutchSummaryTableViewCel
         fatalError("init(coder:) has not been implemented")
     }
     
-    func render(viewModel: DutchSummaryTableViewCellViewModelable) {
+    func render(viewModel: DutchSummaryViewModeling) {
         dateLabel.text = viewModel.dateDescription
         amountLabel.text = viewModel.amountDescription
         messageLabel.text = viewModel.messageDescription

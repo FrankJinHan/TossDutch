@@ -17,7 +17,7 @@ enum DutchDetailStatus {
     case retried
 }
 
-protocol DutchDetailTableViewCellViewModelable {
+protocol DutchDetailViewModeling {
     var nameText: String { get }
     var amountDescription: String { get }
     var messageDescription: String? { get }
@@ -25,7 +25,7 @@ protocol DutchDetailTableViewCellViewModelable {
 }
 
 protocol DutchDetailTableViewCellRenderable {
-    func render(viewModel: DutchDetailTableViewCellViewModelable)
+    func render(viewModel: DutchDetailViewModeling)
 }
 
 final class DutchDetailTableViewCell: UITableViewCell, DutchDetailTableViewCellRenderable {
@@ -45,7 +45,7 @@ final class DutchDetailTableViewCell: UITableViewCell, DutchDetailTableViewCellR
         fatalError("init(coder:) has not been implemented")
     }
     
-    func render(viewModel: DutchDetailTableViewCellViewModelable) {
+    func render(viewModel: DutchDetailViewModeling) {
         iconLabel.text = String(viewModel.nameText.prefix(1))
         nameLabel.text = viewModel.nameText
         amountLabel.text = viewModel.amountDescription

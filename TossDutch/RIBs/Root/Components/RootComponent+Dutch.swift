@@ -15,4 +15,8 @@ extension RootComponent: DutchDependency {
     var dutchStaticRequirement: DutchStaticRequired {
         DutchStaticRequirement(navigationBarTitle: "더치페이")
     }
+    
+    var dutchService: DutchService {
+        DutchServiceImpl()
+    }
 }

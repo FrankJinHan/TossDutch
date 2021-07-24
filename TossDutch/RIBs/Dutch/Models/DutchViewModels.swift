@@ -1,12 +1,11 @@
 //
-//  DutchModels.swift
+//  DutchViewModels.swift
 //  TossDutch
 //
 //  Created by Frank Jin Han on 2021/07/24.
 //
 
 import RxDataSources
-import Foundation
 
 enum DutchSectionModel {
     case summary(items: [DutchSectionItem])
@@ -14,8 +13,8 @@ enum DutchSectionModel {
 }
 
 enum DutchSectionItem {
-    case summary(model: DutchSummaryModel)
-    case detail(model: DutchDetailModel)
+    case summary(viewModel: DutchSummaryViewModeling)
+    case detail(viewModel: DutchDetailViewModeling)
 }
 
 extension DutchSectionModel: SectionModelType {
@@ -40,16 +39,7 @@ extension DutchSectionModel: SectionModelType {
     }
 }
 
-struct DutchSummaryModel {
-    let ownerName: String
-    let message: String
-    let ownerAmount: Int64
-    let completedAmount: Int64
-    let totalAmount: Int64
-    let date: String
-}
-
-extension DutchSummaryModel: DutchSummaryTableViewCellViewModelable {
+extension DutchSummary: DutchSummaryViewModeling {
     var dateDescription: String {
         date.isoDate?.toString ?? "-"
     }
@@ -63,15 +53,7 @@ extension DutchSummaryModel: DutchSummaryTableViewCellViewModelable {
     }
 }
 
-struct DutchDetailModel {
-    let dutchId: Int
-    let name: String
-    let amount: Int64
-    let transferMessage: String?
-    let isDone: Bool
-}
-
-extension DutchDetailModel: DutchDetailTableViewCellViewModelable {
+extension DutchDetail: DutchDetailViewModeling {
     var nameText: String {
         name
     }
