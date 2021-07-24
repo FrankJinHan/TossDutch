@@ -34,6 +34,9 @@
 		4A5B1FA226ABBE49009C6965 /* DutchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1F9E26ABBE49009C6965 /* DutchInteractor.swift */; };
 		4A5B1FA526ABBFE3009C6965 /* RootComponent+Dutch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FA426ABBFE3009C6965 /* RootComponent+Dutch.swift */; };
 		4A5B1FA726ABC055009C6965 /* DutchRequireds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FA626ABC055009C6965 /* DutchRequireds.swift */; };
+		4A5B1FAA26ABC5B6009C6965 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 4A5B1FA926ABC5B6009C6965 /* RxDataSources */; };
+		4A5B1FAC26ABC5B6009C6965 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 4A5B1FAB26ABC5B6009C6965 /* Differentiator */; };
+		4A5B1FBC26ABC984009C6965 /* DutchModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FBB26ABC984009C6965 /* DutchModels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +82,7 @@
 		4A5B1F9E26ABBE49009C6965 /* DutchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchInteractor.swift; sourceTree = "<group>"; };
 		4A5B1FA426ABBFE3009C6965 /* RootComponent+Dutch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootComponent+Dutch.swift"; sourceTree = "<group>"; };
 		4A5B1FA626ABC055009C6965 /* DutchRequireds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchRequireds.swift; sourceTree = "<group>"; };
+		4A5B1FBB26ABC984009C6965 /* DutchModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchModels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +96,8 @@
 				4A5B1F8B26ABBAEB009C6965 /* SwiftRichString in Frameworks */,
 				4A5B1F8826ABB9A6009C6965 /* SnapKit in Frameworks */,
 				4A5B1F7826ABB876009C6965 /* RIBs in Frameworks */,
+				4A5B1FAC26ABC5B6009C6965 /* Differentiator in Frameworks */,
+				4A5B1FAA26ABC5B6009C6965 /* RxDataSources in Frameworks */,
 				4A5B1F9526ABBC76009C6965 /* RxRelay in Frameworks */,
 				4A5B1F6426ABAEC2009C6965 /* SwiftyJSON in Frameworks */,
 			);
@@ -200,6 +206,7 @@
 		4A5B1F9A26ABBE1A009C6965 /* Dutch */ = {
 			isa = PBXGroup;
 			children = (
+				4A5B1FBA26ABC7F6009C6965 /* Models */,
 				4A5B1F9B26ABBE49009C6965 /* DutchRouter.swift */,
 				4A5B1F9C26ABBE49009C6965 /* DutchViewController.swift */,
 				4A5B1F9D26ABBE49009C6965 /* DutchBuilder.swift */,
@@ -215,6 +222,14 @@
 				4A5B1FA426ABBFE3009C6965 /* RootComponent+Dutch.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		4A5B1FBA26ABC7F6009C6965 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4A5B1FBB26ABC984009C6965 /* DutchModels.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -242,6 +257,8 @@
 				4A5B1F9026ABBC76009C6965 /* RxSwift */,
 				4A5B1F9426ABBC76009C6965 /* RxRelay */,
 				4A5B1F9626ABBC76009C6965 /* RxCocoa */,
+				4A5B1FA926ABC5B6009C6965 /* RxDataSources */,
+				4A5B1FAB26ABC5B6009C6965 /* Differentiator */,
 			);
 			productName = TossDutch;
 			productReference = 4A5B1F2426ABA2E3009C6965 /* TossDutch.app */;
@@ -321,6 +338,7 @@
 				4A5B1F8626ABB9A6009C6965 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				4A5B1F8926ABBAEB009C6965 /* XCRemoteSwiftPackageReference "SwiftRichString" */,
 				4A5B1F8F26ABBC76009C6965 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				4A5B1FA826ABC5B6009C6965 /* XCRemoteSwiftPackageReference "RxDataSources" */,
 			);
 			productRefGroup = 4A5B1F2526ABA2E3009C6965 /* Products */;
 			projectDirPath = "";
@@ -374,6 +392,7 @@
 				4A5B1F8526ABB916009C6965 /* RootInteractor.swift in Sources */,
 				4A5B1FA526ABBFE3009C6965 /* RootComponent+Dutch.swift in Sources */,
 				4A5B1FA026ABBE49009C6965 /* DutchViewController.swift in Sources */,
+				4A5B1FBC26ABC984009C6965 /* DutchModels.swift in Sources */,
 				4A5B1F2C26ABA2E3009C6965 /* ViewController.swift in Sources */,
 				4A5B1F2826ABA2E3009C6965 /* AppDelegate.swift in Sources */,
 				4A5B1F2A26ABA2E3009C6965 /* SceneDelegate.swift in Sources */,
@@ -755,6 +774,14 @@
 				minimumVersion = 6.2.0;
 			};
 		};
+		4A5B1FA826ABC5B6009C6965 /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -797,6 +824,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4A5B1F8F26ABBC76009C6965 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxCocoa;
+		};
+		4A5B1FA926ABC5B6009C6965 /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4A5B1FA826ABC5B6009C6965 /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
+		};
+		4A5B1FAB26ABC5B6009C6965 /* Differentiator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4A5B1FA826ABC5B6009C6965 /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = Differentiator;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

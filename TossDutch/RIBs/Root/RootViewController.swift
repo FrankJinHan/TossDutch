@@ -35,6 +35,10 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
         present(navigationController, animated: true, completion: nil)
     }
     
+    func dismiss(viewController: ViewControllable) {
+        viewController.uiviewController.dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: - Privates
     
     private lazy var tossDutchButton: UIButton = {

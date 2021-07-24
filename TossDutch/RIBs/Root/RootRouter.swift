@@ -14,6 +14,7 @@ protocol RootInteractable: Interactable, DutchListener {
 
 protocol RootViewControllable: ViewControllable {
     func presentNavigation(rootViewController: ViewControllable)
+    func dismiss(viewController: ViewControllable)
 }
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, RootRouting {
@@ -30,6 +31,13 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         dutchRouter = router
         attachChild(router)
         viewController.presentNavigation(rootViewController: router.viewControllable)
+    }
+    
+    func detachDutch() {
+        guard let router = dutchRouter else { return }
+        dutchRouter = nil
+        viewController.dismiss(viewController: router.viewControllable)
+        detachChild(router)
     }
     
     // MARK: - Privates

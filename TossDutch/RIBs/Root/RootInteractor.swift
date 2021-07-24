@@ -10,6 +10,7 @@ import RxSwift
 
 protocol RootRouting: ViewableRouting {
     func routeToDutch(requirement: DutchDynamicRequired)
+    func detachDutch()
 }
 
 protocol RootPresentable: Presentable {
@@ -45,5 +46,9 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     func dutchButtonTapped() {
         let requirement = DutchDynamicRequirement()
         router?.routeToDutch(requirement: requirement)
+    }
+    
+    func closeDutch() {
+        router?.detachDutch()
     }
 }

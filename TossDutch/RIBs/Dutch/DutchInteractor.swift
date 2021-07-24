@@ -18,7 +18,7 @@ protocol DutchPresentable: Presentable {
 }
 
 protocol DutchListener: AnyObject {
-    
+    func closeDutch()
 }
 
 final class DutchInteractor: PresentableInteractor<DutchPresentable>, DutchInteractable, DutchPresentableListener {
@@ -44,6 +44,10 @@ final class DutchInteractor: PresentableInteractor<DutchPresentable>, DutchInter
     
     func viewDidLoad() {
         presenter.setNavigationBarTitle(requirement.navigationBarTitle)
+    }
+    
+    func close() {
+        listener?.closeDutch()
     }
     
     private let requirement: DutchInteractorRequired
