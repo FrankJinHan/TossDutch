@@ -15,6 +15,7 @@ protocol DutchPresentableListener: AnyObject {
     func viewDidLoad()
     func close()
     func refresh()
+    func setEnabled()
 }
 
 final class DutchViewController: UIViewController, DutchPresentable, DutchViewControllable {
@@ -52,13 +53,12 @@ final class DutchViewController: UIViewController, DutchPresentable, DutchViewCo
         self.sections.onNext(sections)
     }
     
-    func showError(_ error: Error) {
+    func showPopup(title: String) {
         tableView.refreshControl?.endRefreshing()
-        isEnabledSubject.accept(false)
         
-        let alertController = UIAlertController(title: error.localizedDescription, message: nil, preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "확인", style: .default, handler: { [weak alertController, weak self] _ in
-            self?.isEnabledSubject.accept(true)
+        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default, handler: { [weak alertController, weak listener] _ in
+            listener?.setEnabled()
             alertController?.dismiss(animated: true, completion: nil)
         })
         
@@ -71,12 +71,6 @@ final class DutchViewController: UIViewController, DutchPresentable, DutchViewCo
     private let bag = DisposeBag()
     
     private var sections = PublishSubject<[DutchSectionModel]>()
-    
-    private let isEnabledSubject = BehaviorRelay<Bool>(value: true)
-    
-    private var isEnabledObservable: Observable<Bool> {
-        isEnabledSubject.asObservable()
-    }
     
     private func setupTableView() {
         view.addSubview(tableView)
@@ -93,7 +87,7 @@ final class DutchViewController: UIViewController, DutchPresentable, DutchViewCo
 private extension DutchViewController {
     var dataSource: RxTableViewSectionedReloadDataSource<DutchSectionModel> {
         RxTableViewSectionedReloadDataSource<DutchSectionModel>(
-            configureCell: { [weak self] dataSource, tableView, indexPath, _ in
+            configureCell: { dataSource, tableView, indexPath, _ in
                 switch dataSource[indexPath] {
                 case let .summary(model):
                     let cell = tableView.dequeue(cellClass: DutchSummaryTableViewCell.self, forIndexPath: indexPath)
@@ -101,7 +95,7 @@ private extension DutchViewController {
                     return cell
                 case let .detail(model):
                     let cell = tableView.dequeue(cellClass: DutchDetailTableViewCell.self, forIndexPath: indexPath)
-                    cell.render(viewModel: model, isEnabledObservable: self?.isEnabledObservable)
+                    cell.render(viewModel: model)
                     return cell
                 }
             },

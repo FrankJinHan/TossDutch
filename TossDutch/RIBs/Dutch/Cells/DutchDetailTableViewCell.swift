@@ -12,22 +12,41 @@ import RxSwift
 
 enum DutchDetailStatus {
     case completed
-    case retry
-    case retrying(current: Float)
-    case retried
+    case retry(isEnabled: Bool)
+    case retrying
+    case retried(isEnabled: Bool)
 }
 
-protocol DutchDetailViewModeling {
+enum DutchDetailButton {
+    case status(DutchDetailStatus), progress(completed: Bool)
+}
+
+protocol DutchDetailButtonTappedModeling {
+    var dutchId: Int { get }
+    var button: DutchDetailButton { get }
+}
+
+struct DutchDetailButtonTappedModel: DutchDetailButtonTappedModeling {
+    let dutchId: Int
+    let button: DutchDetailButton
+}
+
+protocol DutchDetailViewStatusCompatible {
+    var dutchId: Int { get }
     var nameText: String { get }
     var amountDescription: String { get }
     var messageDescription: String? { get }
     var status: DutchDetailStatus { get }
-    var buttonTappedClosure: (() -> Void)? { get }
-    var progressButtonTappedClosure: (() -> Void)? { get }
+    var currentRetryProgress: Float? { get }
+}
+
+protocol DutchDetailViewModeling {
+    var viewStatusObservable: Observable<DutchDetailViewStatusCompatible> { get }
+    var buttonTappedSubject: PublishSubject<DutchDetailButton> { get }
 }
 
 protocol DutchDetailTableViewCellRenderable {
-    func render(viewModel: DutchDetailViewModeling, isEnabledObservable: Observable<Bool>?)
+    func render(viewModel: DutchDetailViewModeling)
 }
 
 final class DutchDetailTableViewCell: UITableViewCell, DutchDetailTableViewCellRenderable {
@@ -47,35 +66,100 @@ final class DutchDetailTableViewCell: UITableViewCell, DutchDetailTableViewCellR
         fatalError("init(coder:) has not been implemented")
     }
     
-    func render(viewModel: DutchDetailViewModeling, isEnabledObservable: Observable<Bool>?) {
-        iconLabel.text = String(viewModel.nameText.prefix(1))
-        nameLabel.text = viewModel.nameText
-        amountLabel.text = viewModel.amountDescription
-        messageLabel.text = viewModel.messageDescription
-        messageLabel.isHidden = viewModel.messageDescription == nil
-        status = viewModel.status
-        buttonTappedClosure = viewModel.buttonTappedClosure
-        progressButtonTappedClosure = viewModel.progressButtonTappedClosure
+    func render(viewModel: DutchDetailViewModeling) {
+        buttonTappedSubject = viewModel.buttonTappedSubject
+        let statusObservable = viewModel.viewStatusObservable.map({ $0.status })
+        
+        let sharedStatusObservable = viewModel.viewStatusObservable
+        
+        sharedStatusObservable
+            .map { $0.nameText }
+            .bind(onNext: { [weak self] in
+                self?.iconLabel.text = String($0.prefix(1))
+                self?.nameLabel.text = $0
+            })
+            .disposed(by: bag)
+        
+        sharedStatusObservable
+            .map { $0.amountDescription }
+            .distinctUntilChanged()
+            .bind(to: amountLabel.rx.text)
+            .disposed(by: bag)
+        
+        sharedStatusObservable
+            .map { $0.messageDescription }
+            .distinctUntilChanged()
+            .bind(to: messageLabel.rx.text)
+            .disposed(by: bag)
+        
+        sharedStatusObservable
+            .map { $0.messageDescription == nil }
+            .distinctUntilChanged()
+            .bind(to: messageLabel.rx.isHidden)
+            .disposed(by: bag)
+        
+        sharedStatusObservable
+            .map { $0.status.title }
+            .distinctUntilChanged()
+            .bind(onNext: { [weak self] in
+                self?.statusButton.setTitle($0, for: .normal)
+            })
+            .disposed(by: bag)
+            
+        sharedStatusObservable
+            .map { $0.status.title }
+            .distinctUntilChanged()
+            .bind(to: statusButton.rx.title(for: .normal))
+            .disposed(by: bag)
+        
+        sharedStatusObservable
+            .map { $0.status.isEnabled }
+            .distinctUntilChanged()
+            .bind(to: statusButton.rx.isEnabled)
+            .disposed(by: bag)
+        
+        sharedStatusObservable
+            .map { $0.status.normalTitleColor }
+            .distinctUntilChanged()
+            .bind(onNext: { [weak self] in
+                self?.statusButton.setTitleColor($0, for: .normal)
+            })
+            .disposed(by: bag)
+        
+        sharedStatusObservable
+            .map { $0.status.disabledTitleColor }
+            .distinctUntilChanged()
+            .bind(onNext: { [weak self] in
+                self?.statusButton.setTitleColor($0, for: .disabled)
+            })
+            .disposed(by: bag)
+        
+        sharedStatusObservable
+            .map { $0.status.isStatusButtonHidden }
+            .bind(onNext: { [weak self] in
+                self?.statusButton.isHidden = $0
+                self?.progressButton.isHidden = !$0
+            })
+            .disposed(by: bag)
+        
+        sharedStatusObservable
+            .map { $0.currentRetryProgress }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .bind(onNext: { [weak self] in
+                self?.progressButton.animate(from: CGFloat($0))
+            })
+            .disposed(by: bag)
         
         statusButton.rx.tap
-            .bind { [weak self] in
-                self?.buttonTappedClosure?()
-                self?.statusButtonTapped()
-            }
+            .withLatestFrom(statusObservable) { $1 }
+            .map { DutchDetailButton.status($0) }
+            .bind(to: viewModel.buttonTappedSubject)
             .disposed(by: bag)
         
         progressButton.rx.tap
-            .bind { [weak self] in
-                self?.progressButtonTappedClosure?()
-                self?.progressButtonTapped()
-            }
-            .disposed(by: bag)
-        
-        isEnabledObservable?
-            .filter { [weak self] _ in self?.status?.canChangeEnabledStatus ?? false }
-            .subscribe(onNext: { [weak self] in
-                self?.statusButton.isEnabled = $0
-            })
+            .map { DutchDetailButton.progress(completed: false) }
+            .bind(to: viewModel.buttonTappedSubject)
             .disposed(by: bag)
     }
     
@@ -85,45 +169,7 @@ final class DutchDetailTableViewCell: UITableViewCell, DutchDetailTableViewCellR
     
     private var progressButtonTappedClosure: (() -> Void)?
     
-    private var status: DutchDetailStatus? {
-        didSet {
-            switch status {
-            case .completed:
-                statusButton.setTitleColor(.black, for: .normal)
-                statusButton.setTitle("완료", for: .normal)
-                statusButton.isUserInteractionEnabled = false
-                statusButton.isEnabled = true
-                statusButton.isHidden = false
-                progressButton.cancel()
-                progressButton.isHidden = true
-            case .retry:
-                statusButton.setTitleColor(.systemBlue, for: .normal)
-                statusButton.setTitle("재요청", for: .normal)
-                statusButton.isUserInteractionEnabled = true
-                statusButton.isEnabled = true
-                statusButton.isHidden = false
-                progressButton.cancel()
-                progressButton.isHidden = true
-            case let .retrying(current):
-                statusButton.isHidden = true
-                progressButton.isHidden = false
-                progressButton.animate(from: CGFloat(current))
-            case .retried:
-                statusButton.setTitleColor(.systemBlue, for: .normal)
-                statusButton.setTitle("요청함", for: .normal)
-                statusButton.isEnabled = true
-                statusButton.isUserInteractionEnabled = true
-                statusButton.isHidden = false
-                progressButton.cancel()
-                progressButton.isHidden = true
-            default:
-                statusButton.isEnabled = true
-                statusButton.isHidden = true
-                progressButton.cancel()
-                progressButton.isHidden = true
-            }
-        }
-    }
+    private var buttonTappedSubject: PublishSubject<DutchDetailButton>?
     
     private lazy var mainStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [iconLabel, contentsStackView])
@@ -210,7 +256,7 @@ final class DutchDetailTableViewCell: UITableViewCell, DutchDetailTableViewCellR
     
     private lazy var progressButton: ProgressButton = { [weak self] in
         let button = ProgressButton(color: .systemBlue, radius: 15, duration: CGFloat(GlobalConstant.dutchRetryDuration), completion: {
-            self?.requestCompleted()
+            self?.buttonTappedSubject?.onNext(.progress(completed: true))
         })
         button.snp.makeConstraints {
             $0.width.height.equalTo(30)
@@ -225,32 +271,6 @@ final class DutchDetailTableViewCell: UITableViewCell, DutchDetailTableViewCellR
         }
         progressButton.isHidden = true
     }
-    
-    private func statusButtonTapped() {
-        switch status {
-        case .retrying?:
-            status = .retry
-        case .retry?:
-            status = .retrying(current: 0)
-        case .retried?:
-            break // TODO : 팝업
-        default:
-            break
-        }
-    }
-    
-    private func progressButtonTapped() {
-        switch status {
-        case .retrying?:
-            status = .retry
-        default:
-            break
-        }
-    }
-    
-    private func requestCompleted() {
-        status = .retried
-    }
 }
 
 private extension DutchDetailStatus {
@@ -258,6 +278,73 @@ private extension DutchDetailStatus {
         switch self {
         case .retry, .retried: return true
         default: return false
+        }
+    }
+}
+
+private extension DutchDetailStatus {
+    var title: String {
+        switch self {
+        case .completed:
+            return "완료"
+        case .retry:
+            return "재요청"
+        case .retrying:
+            return ""
+        case .retried:
+            return "요청함"
+        }
+    }
+    
+    var isEnabled: Bool {
+        switch self {
+        case .completed:
+            return false
+        case let .retry(isEnabled):
+            return isEnabled
+        case .retrying:
+            return false
+        case let .retried(isEnabled):
+            return isEnabled
+        }
+    }
+    
+    var normalTitleColor: UIColor {
+        switch self {
+        case .completed:
+            return .black
+        case .retry:
+            return .systemBlue
+        case .retrying:
+            return .clear
+        case .retried:
+            return .systemBlue
+        }
+    }
+    
+    var disabledTitleColor: UIColor {
+        switch self {
+        case .completed:
+            return .black
+        case .retry:
+            return .lightGray
+        case .retrying:
+            return .clear
+        case .retried:
+            return .lightGray
+        }
+    }
+    
+    var isStatusButtonHidden: Bool {
+        switch self {
+        case .completed:
+            return false
+        case .retry:
+            return false
+        case .retrying:
+            return true
+        case .retried:
+            return false
         }
     }
 }
