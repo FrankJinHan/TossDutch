@@ -6,6 +6,6 @@
 //
 
 enum GlobalConstant {
-    static let dutchRetryDuration: Float = 3
+    static let dutchRetryDuration: Float = 10
 }
 

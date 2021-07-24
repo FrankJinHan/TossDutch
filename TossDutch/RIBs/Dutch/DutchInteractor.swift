@@ -21,11 +21,12 @@ final class DutchDetailRetryStatus {
 }
 
 struct DutchDetailItem {
+    let dutchId: Int
     let nameText: String
     let amountDescription: String
     let messageDescription: String?
     let retryStatus: DutchDetailRetryStatus
-    let isDone: Bool
+    var isDone: Bool
     var buttonTappedClosure: (() -> Void)?
     var progressButtonTappedClosure: (() -> Void)?
 }
@@ -84,6 +85,8 @@ final class DutchInteractor: PresentableInteractor<DutchPresentable>, DutchInter
     
     private let service: DutchService
     
+    private var dutchDetailItems: [DutchDetailItem] = []
+    
     private func requestDutchData() {
         service.requestDutchData()
             .observe(on: MainScheduler.instance)
@@ -97,18 +100,23 @@ final class DutchInteractor: PresentableInteractor<DutchPresentable>, DutchInter
     }
     
     private func update(dutchData: DutchData) {
-        presenter.reload(sections: dutchData.sections)
-    }
-}
-
-private extension DutchData {
-    var sections: [DutchSectionModel] {
-        [
-            .summary(items: [.summary(viewModel: dutchSummary)]),
-            .detail(items: dutchDetailList.map {
-                .detail(viewModel: $0.dutchDetailItem)
-            })
+        let newDutchDetailItems: [DutchDetailItem] = dutchData.dutchDetailList.map { newDetail in
+            var newItem = newDetail.dutchDetailItem
+            if let oldItem = dutchDetailItems.first(where: { newDetail.dutchId == $0.dutchId }) {
+                newItem.retryStatus.startTime = oldItem.retryStatus.startTime
+                newItem.isDone = oldItem.retryStatus.startTime != nil ? false : newItem.isDone
+            }
+            return newItem
+        }
+        
+        dutchDetailItems = newDutchDetailItems
+        
+        let sections: [DutchSectionModel] = [
+            .summary(items: [.summary(viewModel: dutchData.dutchSummary)]),
+            .detail(items: dutchDetailItems.map({ .detail(viewModel: $0) }))
         ]
+        
+        presenter.reload(sections: sections)
     }
 }
 
@@ -116,6 +124,7 @@ private extension DutchDetail {
     var dutchDetailItem: DutchDetailItem {
         let retryStatus = DutchDetailRetryStatus()
         return DutchDetailItem(
+            dutchId: dutchId,
             nameText: name,
             amountDescription: "\(amount.addComma ?? "-")원",
             messageDescription: transferMessage,
