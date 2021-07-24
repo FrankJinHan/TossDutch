@@ -37,6 +37,13 @@
 		4A5B1FAA26ABC5B6009C6965 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 4A5B1FA926ABC5B6009C6965 /* RxDataSources */; };
 		4A5B1FAC26ABC5B6009C6965 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = 4A5B1FAB26ABC5B6009C6965 /* Differentiator */; };
 		4A5B1FBC26ABC984009C6965 /* DutchModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FBB26ABC984009C6965 /* DutchModels.swift */; };
+		4A5B1FBF26ABD67B009C6965 /* DutchTableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FBE26ABD67B009C6965 /* DutchTableViewCells.swift */; };
+		4A5B1FC326ABD8D0009C6965 /* UITableViewCell+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FC226ABD8D0009C6965 /* UITableViewCell+extension.swift */; };
+		4A5B1FC526ABDD2D009C6965 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FC426ABDD2D009C6965 /* String+extension.swift */; };
+		4A5B1FC726ABDD7E009C6965 /* Date+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FC626ABDD7E009C6965 /* Date+extension.swift */; };
+		4A5B1FC926ABDEB6009C6965 /* UITableView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FC826ABDEB6009C6965 /* UITableView+extension.swift */; };
+		4A5B1FCB26ABDF02009C6965 /* Int64+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FCA26ABDF02009C6965 /* Int64+extension.swift */; };
+		4A5B1FCD26ABE3EA009C6965 /* DutchDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5B1FCC26ABE3EA009C6965 /* DutchDetailTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +90,13 @@
 		4A5B1FA426ABBFE3009C6965 /* RootComponent+Dutch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootComponent+Dutch.swift"; sourceTree = "<group>"; };
 		4A5B1FA626ABC055009C6965 /* DutchRequireds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchRequireds.swift; sourceTree = "<group>"; };
 		4A5B1FBB26ABC984009C6965 /* DutchModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchModels.swift; sourceTree = "<group>"; };
+		4A5B1FBE26ABD67B009C6965 /* DutchTableViewCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchTableViewCells.swift; sourceTree = "<group>"; };
+		4A5B1FC226ABD8D0009C6965 /* UITableViewCell+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+extension.swift"; sourceTree = "<group>"; };
+		4A5B1FC426ABDD2D009C6965 /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
+		4A5B1FC626ABDD7E009C6965 /* Date+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+extension.swift"; sourceTree = "<group>"; };
+		4A5B1FC826ABDEB6009C6965 /* UITableView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+extension.swift"; sourceTree = "<group>"; };
+		4A5B1FCA26ABDF02009C6965 /* Int64+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int64+extension.swift"; sourceTree = "<group>"; };
+		4A5B1FCC26ABE3EA009C6965 /* DutchDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DutchDetailTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +157,7 @@
 		4A5B1F2626ABA2E3009C6965 /* TossDutch */ = {
 			isa = PBXGroup;
 			children = (
+				4A5B1FC126ABD897009C6965 /* Extensions */,
 				4A5B1F7C26ABB8CB009C6965 /* RIBs */,
 				4A5B1F2726ABA2E3009C6965 /* AppDelegate.swift */,
 				4A5B1F2926ABA2E3009C6965 /* SceneDelegate.swift */,
@@ -206,6 +221,7 @@
 		4A5B1F9A26ABBE1A009C6965 /* Dutch */ = {
 			isa = PBXGroup;
 			children = (
+				4A5B1FBD26ABD66A009C6965 /* Cells */,
 				4A5B1FBA26ABC7F6009C6965 /* Models */,
 				4A5B1F9B26ABBE49009C6965 /* DutchRouter.swift */,
 				4A5B1F9C26ABBE49009C6965 /* DutchViewController.swift */,
@@ -230,6 +246,27 @@
 				4A5B1FBB26ABC984009C6965 /* DutchModels.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		4A5B1FBD26ABD66A009C6965 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				4A5B1FBE26ABD67B009C6965 /* DutchTableViewCells.swift */,
+				4A5B1FCC26ABE3EA009C6965 /* DutchDetailTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		4A5B1FC126ABD897009C6965 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4A5B1FC226ABD8D0009C6965 /* UITableViewCell+extension.swift */,
+				4A5B1FC426ABDD2D009C6965 /* String+extension.swift */,
+				4A5B1FC626ABDD7E009C6965 /* Date+extension.swift */,
+				4A5B1FC826ABDEB6009C6965 /* UITableView+extension.swift */,
+				4A5B1FCA26ABDF02009C6965 /* Int64+extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -385,19 +422,26 @@
 			files = (
 				4A5B1F9F26ABBE49009C6965 /* DutchRouter.swift in Sources */,
 				4A5B1F8326ABB916009C6965 /* RootViewController.swift in Sources */,
+				4A5B1FBF26ABD67B009C6965 /* DutchTableViewCells.swift in Sources */,
 				4A5B1F8E26ABBB72009C6965 /* AppComponent.swift in Sources */,
 				4A5B1FA126ABBE49009C6965 /* DutchBuilder.swift in Sources */,
 				4A5B1F8226ABB916009C6965 /* RootRouter.swift in Sources */,
+				4A5B1FCB26ABDF02009C6965 /* Int64+extension.swift in Sources */,
 				4A5B1FA726ABC055009C6965 /* DutchRequireds.swift in Sources */,
+				4A5B1FC926ABDEB6009C6965 /* UITableView+extension.swift in Sources */,
 				4A5B1F8526ABB916009C6965 /* RootInteractor.swift in Sources */,
+				4A5B1FC526ABDD2D009C6965 /* String+extension.swift in Sources */,
 				4A5B1FA526ABBFE3009C6965 /* RootComponent+Dutch.swift in Sources */,
+				4A5B1FC326ABD8D0009C6965 /* UITableViewCell+extension.swift in Sources */,
 				4A5B1FA026ABBE49009C6965 /* DutchViewController.swift in Sources */,
 				4A5B1FBC26ABC984009C6965 /* DutchModels.swift in Sources */,
 				4A5B1F2C26ABA2E3009C6965 /* ViewController.swift in Sources */,
 				4A5B1F2826ABA2E3009C6965 /* AppDelegate.swift in Sources */,
+				4A5B1FC726ABDD7E009C6965 /* Date+extension.swift in Sources */,
 				4A5B1F2A26ABA2E3009C6965 /* SceneDelegate.swift in Sources */,
 				4A5B1F8426ABB916009C6965 /* RootBuilder.swift in Sources */,
 				4A5B1FA226ABBE49009C6965 /* DutchInteractor.swift in Sources */,
+				4A5B1FCD26ABE3EA009C6965 /* DutchDetailTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

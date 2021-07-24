@@ -6,6 +6,7 @@
 //
 
 import RxDataSources
+import Foundation
 
 enum DutchSectionModel {
     case summary(items: [DutchSectionItem])
@@ -48,10 +49,38 @@ struct DutchSummaryModel {
     let date: String
 }
 
+extension DutchSummaryModel: DutchSummaryTableViewCellViewModelable {
+    var dateDescription: String {
+        date.isoDate?.toString ?? "-"
+    }
+    
+    var amountDescription: String {
+        "\(completedAmount.addComma ?? "-") 원 완료 / 총 \(totalAmount.addComma ?? "-") 원"
+    }
+    
+    var messageDescription: String {
+        "\(ownerName): \(message)"
+    }
+}
+
 struct DutchDetailModel {
     let dutchId: Int
     let name: String
     let amount: Int64
-    let transferMessage: String
+    let transferMessage: String?
     let isDone: Bool
+}
+
+extension DutchDetailModel: DutchDetailTableViewCellViewModelable {
+    var nameText: String {
+        name
+    }
+    
+    var amountDescription: String {
+        "\(amount.addComma ?? "-")원"
+    }
+    
+    var messageDescription: String? {
+        transferMessage
+    }
 }
