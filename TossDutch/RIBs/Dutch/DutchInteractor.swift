@@ -38,6 +38,7 @@ protocol DutchPresentable: Presentable {
     var listener: DutchPresentableListener? { get set }
     func setNavigationBarTitle(_ title: String)
     func reload(sections: [DutchSectionModel])
+    func showError(_ error: Error)
 }
 
 protocol DutchListener: AnyObject {
@@ -68,23 +69,32 @@ final class DutchInteractor: PresentableInteractor<DutchPresentable>, DutchInter
     
     func viewDidLoad() {
         presenter.setNavigationBarTitle(requirement.navigationBarTitle)
-        service.requestDutchData()
-            .observe(on: MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] dutchData in
-                self?.update(dutchData: dutchData)
-            }, onFailure: { error in
-                //TODO : show popup
-            })
-            .disposeOnDeactivate(interactor: self)
+        requestDutchData()
     }
     
     func close() {
         listener?.closeDutch()
     }
     
+    func refresh() {
+        requestDutchData()
+    }
+    
     private let requirement: DutchInteractorRequired
     
     private let service: DutchService
+    
+    private func requestDutchData() {
+        service.requestDutchData()
+            .observe(on: MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] dutchData in
+                self?.update(dutchData: dutchData)
+            }, onFailure: { [weak presenter] error in
+                print(error)
+                presenter?.showError(error)
+            })
+            .disposeOnDeactivate(interactor: self)
+    }
     
     private func update(dutchData: DutchData) {
         presenter.reload(sections: dutchData.sections)

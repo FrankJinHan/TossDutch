@@ -27,7 +27,7 @@ protocol DutchDetailViewModeling {
 }
 
 protocol DutchDetailTableViewCellRenderable {
-    func render(viewModel: DutchDetailViewModeling)
+    func render(viewModel: DutchDetailViewModeling, isEnabledObservable: Observable<Bool>?)
 }
 
 final class DutchDetailTableViewCell: UITableViewCell, DutchDetailTableViewCellRenderable {
@@ -47,7 +47,7 @@ final class DutchDetailTableViewCell: UITableViewCell, DutchDetailTableViewCellR
         fatalError("init(coder:) has not been implemented")
     }
     
-    func render(viewModel: DutchDetailViewModeling) {
+    func render(viewModel: DutchDetailViewModeling, isEnabledObservable: Observable<Bool>?) {
         iconLabel.text = String(viewModel.nameText.prefix(1))
         nameLabel.text = viewModel.nameText
         amountLabel.text = viewModel.amountDescription
@@ -70,6 +70,13 @@ final class DutchDetailTableViewCell: UITableViewCell, DutchDetailTableViewCellR
                 self?.progressButtonTapped()
             }
             .disposed(by: bag)
+        
+        isEnabledObservable?
+            .filter { [weak self] _ in self?.status?.canChangeEnabledStatus ?? false }
+            .subscribe(onNext: { [weak self] in
+                self?.statusButton.isEnabled = $0
+            })
+            .disposed(by: bag)
     }
     
     private var bag = DisposeBag()
@@ -85,6 +92,7 @@ final class DutchDetailTableViewCell: UITableViewCell, DutchDetailTableViewCellR
                 statusButton.setTitleColor(.black, for: .normal)
                 statusButton.setTitle("완료", for: .normal)
                 statusButton.isUserInteractionEnabled = false
+                statusButton.isEnabled = true
                 statusButton.isHidden = false
                 progressButton.cancel()
                 progressButton.isHidden = true
@@ -92,6 +100,7 @@ final class DutchDetailTableViewCell: UITableViewCell, DutchDetailTableViewCellR
                 statusButton.setTitleColor(.systemBlue, for: .normal)
                 statusButton.setTitle("재요청", for: .normal)
                 statusButton.isUserInteractionEnabled = true
+                statusButton.isEnabled = true
                 statusButton.isHidden = false
                 progressButton.cancel()
                 progressButton.isHidden = true
@@ -102,11 +111,13 @@ final class DutchDetailTableViewCell: UITableViewCell, DutchDetailTableViewCellR
             case .retried:
                 statusButton.setTitleColor(.systemBlue, for: .normal)
                 statusButton.setTitle("요청함", for: .normal)
+                statusButton.isEnabled = true
                 statusButton.isUserInteractionEnabled = true
                 statusButton.isHidden = false
                 progressButton.cancel()
                 progressButton.isHidden = true
             default:
+                statusButton.isEnabled = true
                 statusButton.isHidden = true
                 progressButton.cancel()
                 progressButton.isHidden = true
@@ -190,8 +201,7 @@ final class DutchDetailTableViewCell: UITableViewCell, DutchDetailTableViewCellR
     private lazy var statusButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = SystemFonts.AppleSDGothicNeo_Medium.font(size: 16)
-        button.setTitle("재전송", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.lightGray, for: .disabled)
         button.snp.makeConstraints {
             $0.height.equalTo(30)
         }
@@ -240,5 +250,14 @@ final class DutchDetailTableViewCell: UITableViewCell, DutchDetailTableViewCellR
     
     private func requestCompleted() {
         status = .retried
+    }
+}
+
+private extension DutchDetailStatus {
+    var canChangeEnabledStatus: Bool {
+        switch self {
+        case .retry, .retried: return true
+        default: return false
+        }
     }
 }

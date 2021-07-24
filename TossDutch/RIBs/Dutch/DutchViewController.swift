@@ -9,10 +9,12 @@ import RIBs
 import RxSwift
 import UIKit
 import RxDataSources
+import RxRelay
 
 protocol DutchPresentableListener: AnyObject {
     func viewDidLoad()
     func close()
+    func refresh()
 }
 
 final class DutchViewController: UIViewController, DutchPresentable, DutchViewControllable {
@@ -26,6 +28,14 @@ final class DutchViewController: UIViewController, DutchPresentable, DutchViewCo
         
         setupTableView()
         
+        let refreshControl = UIRefreshControl()
+        tableView.refreshControl = refreshControl
+        refreshControl.rx.controlEvent(.valueChanged)
+            .bind { [weak listener] in
+                listener?.refresh()
+            }
+            .disposed(by: bag)
+        
         sections
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
@@ -38,7 +48,22 @@ final class DutchViewController: UIViewController, DutchPresentable, DutchViewCo
     }
     
     func reload(sections: [DutchSectionModel]) {
+        tableView.refreshControl?.endRefreshing()
         self.sections.onNext(sections)
+    }
+    
+    func showError(_ error: Error) {
+        tableView.refreshControl?.endRefreshing()
+        isEnabledSubject.accept(false)
+        
+        let alertController = UIAlertController(title: error.localizedDescription, message: nil, preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default, handler: { [weak alertController, weak self] _ in
+            self?.isEnabledSubject.accept(true)
+            alertController?.dismiss(animated: true, completion: nil)
+        })
+        
+        alertController.addAction(confirmAction)
+        present(alertController, animated: true, completion: nil)
     }
     
     private let tableView = UITableView()
@@ -46,6 +71,12 @@ final class DutchViewController: UIViewController, DutchPresentable, DutchViewCo
     private let bag = DisposeBag()
     
     private var sections = PublishSubject<[DutchSectionModel]>()
+    
+    private let isEnabledSubject = BehaviorRelay<Bool>(value: true)
+    
+    private var isEnabledObservable: Observable<Bool> {
+        isEnabledSubject.asObservable()
+    }
     
     private func setupTableView() {
         view.addSubview(tableView)
@@ -62,7 +93,7 @@ final class DutchViewController: UIViewController, DutchPresentable, DutchViewCo
 private extension DutchViewController {
     var dataSource: RxTableViewSectionedReloadDataSource<DutchSectionModel> {
         RxTableViewSectionedReloadDataSource<DutchSectionModel>(
-            configureCell: { dataSource, tableView, indexPath, _ in
+            configureCell: { [weak self] dataSource, tableView, indexPath, _ in
                 switch dataSource[indexPath] {
                 case let .summary(model):
                     let cell = tableView.dequeue(cellClass: DutchSummaryTableViewCell.self, forIndexPath: indexPath)
@@ -70,7 +101,7 @@ private extension DutchViewController {
                     return cell
                 case let .detail(model):
                     let cell = tableView.dequeue(cellClass: DutchDetailTableViewCell.self, forIndexPath: indexPath)
-                    cell.render(viewModel: model)
+                    cell.render(viewModel: model, isEnabledObservable: self?.isEnabledObservable)
                     return cell
                 }
             },
